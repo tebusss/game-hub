@@ -1,34 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import "./App.css";
+import { ChakraProvider, HStack, VStack } from "@chakra-ui/react";
+import SearchBar from "./main-menu/components/SearchBar";
+import ThemeToggle from "./main-menu/components/ThemeToggle";
+import GenreMenu from "./side-bar/components/GenreMenu";
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+export interface Genre {
+  id: number;
+  name: string;
+  img?: ImageBitmap;
 }
 
-export default App
+function App() {
+  const [genres, setGenres] = useState<Genre[]>([
+    { id: 1, name: "Action" },
+    { id: 2, name: "Indie" },
+    { id: 3, name: "Adventure" },
+  ]);
+  return (
+    <ChakraProvider>
+      <VStack>
+        <GenreMenu genres={genres} />
+      </VStack>
+      <HStack>
+        <SearchBar />
+        <ThemeToggle />
+      </HStack>
+    </ChakraProvider>
+  );
+}
+
+export default App;
