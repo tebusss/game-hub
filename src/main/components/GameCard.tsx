@@ -17,7 +17,10 @@ const GameCard = ({ game }: Props) => {
         />
         <Stack mt={6} spacing={3}>
           <Heading size="md">{game.name}</Heading>
-          <ArrowDownIcon />{" "}
+          <ArrowDownIcon />
+          <Text>{game.genre.name}</Text>
+          <Text>{game.platform}</Text>
+          <Text>{game.releaseDate?.toDateString()}</Text>
         </Stack>
       </CardBody>
     </Card>
