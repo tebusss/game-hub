@@ -1,35 +1,15 @@
 import { useState, useEffect } from "react";
-import reactLogo from "./assets/react.svg";
 import "./App.css";
-import {
-  Center,
-  ChakraProvider,
-  Grid,
-  GridItem,
-  HStack,
-  Show,
-  Text,
-  Wrap,
-  WrapItem,
-} from "@chakra-ui/react";
-import SearchBar from "./main-menu/components/SearchBar";
-import ThemeToggle from "./main-menu/components/ThemeToggle";
+import { Grid, GridItem, Show, Text } from "@chakra-ui/react";
+import NavBar from "./components/NavBar";
 import GenreMenu from "./side-bar/components/GenreList";
-import GameCard from "./main/components/GameCard";
 import FilterBar from "./main/components/FilterBar";
+import GameGrid from "./GameGrid";
 
 export interface Genre {
   id: number;
   name: string;
   img?: ImageBitmap;
-}
-export interface Game {
-  id: number;
-  name: string;
-  imgPath?: string;
-  releaseDate?: Date;
-  platform: string;
-  genre: Genre;
 }
 function App() {
   const [genres, setGenres] = useState<Genre[]>([
@@ -37,94 +17,7 @@ function App() {
     { id: 2, name: "Indie" },
     { id: 3, name: "Adventure" },
   ]);
-  const [games, setGames] = useState<Game[]>([
-    {
-      id: 1,
-      name: "A Game 1",
-      releaseDate: new Date(2022, 3, 23),
-      platform: "PS3",
-      genre: genres.find((x) => x.id === 1) as Genre,
-    },
-    {
-      id: 2,
-      name: "C Game 2",
-      releaseDate: new Date(2023, 3, 23),
-      platform: "PS4",
-      genre: genres.find((x) => x.id === 1) as Genre,
-    },
-    {
-      id: 3,
-      name: "Ö Game 3",
-      releaseDate: new Date(2021, 3, 23),
-      platform: "PS5",
-      genre: genres.find((x) => x.id === 1) as Genre,
-    },
-    {
-      id: 4,
-      name: "The Game 4",
-      releaseDate: new Date(2020, 3, 23),
-      platform: "PC",
-      genre: genres.find((x) => x.id === 2) as Genre,
-    },
-    {
-      id: 5,
-      name: "A Game 5",
-      releaseDate: new Date(2019, 3, 23),
-      platform: "PC",
-      genre: genres.find((x) => x.id === 2) as Genre,
-    },
-    {
-      id: 6,
-      name: "G Game 6",
-      releaseDate: new Date(2018, 2, 23),
-      platform: "Xbox",
-      genre: genres.find((x) => x.id === 2) as Genre,
-    },
-    {
-      id: 7,
-      name: "Game 7",
-      releaseDate: new Date(2022, 3, 15),
-      platform: "PS3",
-      genre: genres.find((x) => x.id === 2) as Genre,
-    },
-    {
-      id: 8,
-      name: "Game 8",
-      releaseDate: new Date(2023, 3, 13),
-      platform: "PS4",
-      genre: genres.find((x) => x.id === 3) as Genre,
-    },
-    {
-      id: 9,
-      name: "Game 9",
-      releaseDate: new Date(2000, 5, 23),
-      platform: "PS4",
-      genre: genres.find((x) => x.id === 3) as Genre,
-    },
-    {
-      id: 10,
-      name: "Game 10",
-      releaseDate: new Date(2001, 3, 23),
-      platform: "PS4",
-      genre: genres.find((x) => x.id === 3) as Genre,
-    },
-    {
-      id: 11,
-      name: "Game 11",
-      releaseDate: new Date(2002, 3, 23),
-      platform: "PC",
-      genre: genres.find((x) => x.id === 3) as Genre,
-    },
-    {
-      id: 12,
-      name: "Game 12",
-      releaseDate: new Date(2003, 3, 23),
-      platform: "Xbox",
-      genre: genres.find((x) => x.id === 3) as Genre,
-    },
-  ]);
   const [searchString, setSearchString] = useState("");
-  const [filteredGames, setFilteredGames] = useState<Game[]>([]);
   const [selectedPlatform, setSelectedPlatform] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<Genre>();
   const [orderByOptions, setOrderByOptions] = useState([
@@ -145,62 +38,39 @@ function App() {
   }, []);
   const handlePlatformChange = (selectedPlat: string) => {
     console.log(selectedPlat);
-    filter(selectedGenre as Genre, selectedPlat, searchString);
     setSelectedPlatform(selectedPlat);
   };
   const handleGenreChange = (selectedGenre: number) => {
     const genre = genres.find((g) => g.id === selectedGenre) as Genre;
     console.log(genre);
     if (!genre) console.log("Genre filter cleared!");
-    filter(genre, selectedPlatform, searchString);
     setSelectedGenre(genre);
   };
   const handleSearchStringChange = (searchString: string) => {
-    filter(
-      selectedGenre as Genre,
-      selectedPlatform,
-      searchString.toLowerCase()
-    );
     console.log(searchString);
     setSearchString(searchString.toLowerCase());
   };
-  const filter = (
-    selectedGenre: Genre,
-    selectedPlatform: string,
-    searchString: string
-  ) => {
-    var filtered = games;
-    if (selectedPlatform !== "All")
-      filtered = games.filter((g) => g.platform === selectedPlatform);
-    if (selectedGenre) {
-      filtered = filtered.filter((g) => g.genre === selectedGenre);
-    }
-    if (searchString)
-      filtered = filtered.filter((g) =>
-        g.name.toLowerCase().includes(searchString)
-      );
-    setFilteredGames(filtered);
-  };
+
   const orderGames = (selectedOrder: string) => {
     console.log(selectedOrder);
     let temp = null;
-    switch (selectedOrder) {
-      case "Popularity": {
-      }
-      case "Release date": {
-        temp = [...filteredGames].sort((a, b) => {
-          if (a.releaseDate && b.releaseDate)
-            return a.releaseDate > b.releaseDate ? -1 : 1;
-          else return 0;
-        });
-        break;
-      }
-      case "Name":
-        temp = [...filteredGames].sort((a, b) => a.name.localeCompare(b.name));
-        console.log("by name");
-        break;
-    }
-    if (temp) setFilteredGames(temp);
+    // switch (selectedOrder) {
+    //   case "Popularity": {
+    //   }
+    //   case "Release date": {
+    //     temp = [...filteredGames].sort((a, b) => {
+    //       if (a.releaseDate && b.releaseDate)
+    //         return a.releaseDate > b.releaseDate ? -1 : 1;
+    //       else return 0;
+    //     });
+    //     break;
+    //   }
+    //   case "Name":
+    //     temp = [...filteredGames].sort((a, b) => a.name.localeCompare(b.name));
+    //     console.log("by name");
+    //     break;
+    // }
+    // if (temp) setFilteredGames(temp);
   };
   return (
     <Grid
@@ -210,25 +80,20 @@ function App() {
       }}
       gap={2}
     >
-      <GridItem pl={2} area={"nav"} background={"cyan"}>
-        <HStack>
-          <SearchBar
-            onSearchStringChange={(str: string) =>
-              handleSearchStringChange(str)
-            }
-          />
-          <ThemeToggle />
-        </HStack>
+      <GridItem area={"nav"}>
+        <NavBar
+          onSearchStringChange={(str: string) => handleSearchStringChange(str)}
+        />
       </GridItem>
       <Show above="lg">
-        <GridItem pl={2} area={"aside"} background={"blue"}>
+        <GridItem pl={2} area={"aside"}>
           <GenreMenu
             genres={genres}
             onGenreChange={(genreId: number) => handleGenreChange(genreId)}
           />
         </GridItem>
       </Show>
-      <GridItem pl={2} area={"main"} background={"red"}>
+      <GridItem pl={2} area={"main"}>
         <FilterBar
           orderByOptions={orderByOptions}
           platformOptions={platformOptions}
@@ -239,17 +104,10 @@ function App() {
             handlePlatformChange(platform);
           }}
         />
-
         <Text fontSize={40} m={2}>
           {selectedGenre?.name} Games
         </Text>
-        <Wrap>
-          {filteredGames.map((game) => (
-            <WrapItem key={game.id}>
-              <GameCard game={game} />
-            </WrapItem>
-          ))}
-        </Wrap>
+        <GameGrid />
       </GridItem>
     </Grid>
   );
