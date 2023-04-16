@@ -7,7 +7,11 @@ interface FetchGamesResponse {
     count: number;
     results: Game[];
   }
-  
+  export interface Platform{
+    id : number;
+    name:string;
+    slug :string;
+  }
 export interface Game {
     id: number;
     name: string;
@@ -16,6 +20,7 @@ export interface Game {
     releaseDate?: Date;
     platform?: string;
     genre?: Genre;
+    parent_platforms:{platform: Platform}[]
   }
 const useGames = () =>{ 
     const [games, setGames] = useState<Game[]>([]);

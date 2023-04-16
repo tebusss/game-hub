@@ -18,27 +18,17 @@ function App() {
     { id: 3, name: "Adventure" },
   ]);
   const [searchString, setSearchString] = useState("");
-  const [selectedPlatform, setSelectedPlatform] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<Genre>();
   const [orderByOptions, setOrderByOptions] = useState([
     "Popularity",
     "Release date",
     "Name",
   ]);
-  const [platformOptions, setPlatformOptions] = useState([
-    "All",
-    "Xbox",
-    "PS3",
-    "PS4",
-    "PC",
-    "PS5",
-  ]);
   useEffect(() => {
     handlePlatformChange("All");
   }, []);
   const handlePlatformChange = (selectedPlat: string) => {
     console.log(selectedPlat);
-    setSelectedPlatform(selectedPlat);
   };
   const handleGenreChange = (selectedGenre: number) => {
     const genre = genres.find((g) => g.id === selectedGenre) as Genre;
@@ -93,10 +83,10 @@ function App() {
           />
         </GridItem>
       </Show>
-      <GridItem pl={2} area={"main"}>
+      <GridItem area={"main"}>
         <FilterBar
           orderByOptions={orderByOptions}
-          platformOptions={platformOptions}
+          platformOptions={[]}
           onOrderChange={(order) => {
             orderGames(order);
           }}
