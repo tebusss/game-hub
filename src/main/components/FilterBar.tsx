@@ -1,5 +1,4 @@
-import { HStack, Select, useStatStyles } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { HStack, Select } from "@chakra-ui/react";
 interface Props {
   orderByOptions: string[];
   platformOptions: string[];

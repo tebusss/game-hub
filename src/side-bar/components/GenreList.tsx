@@ -1,4 +1,3 @@
-import React from "react";
 import { ListItem, ListIcon, List, Button } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { Genre } from "../../App";

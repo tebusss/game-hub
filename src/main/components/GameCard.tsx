@@ -1,16 +1,6 @@
 import { Card, CardBody, Heading, Image, Stack, Text } from "@chakra-ui/react";
 import { ArrowDownIcon } from "@chakra-ui/icons";
-import { Genre } from "../../App";
-
-export interface Game {
-  id: number;
-  name: string;
-  description: string;
-  background_image?: string;
-  releaseDate?: Date;
-  platform?: string;
-  genre?: Genre;
-}
+import { Game } from "../../hooks/useGames";
 
 interface Props {
   game: Game;
