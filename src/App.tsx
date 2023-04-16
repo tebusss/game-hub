@@ -32,6 +32,10 @@ function App() {
         base: `"nav" "main"`,
         lg: `"nav nav" "aside main"`, // 1024px
       }}
+      templateColumns={{
+        base: "1fr",
+        lg: "250px 1fr",
+      }}
       gap={2}
     >
       <GridItem area={"nav"}>
@@ -40,7 +44,7 @@ function App() {
         />
       </GridItem>
       <Show above="lg">
-        <GridItem pl={2} area={"aside"}>
+        <GridItem pl={2} area={"aside"} paddingX={1}>
           <GenreMenu
             onGenreChange={(genreId: number) => handleGenreChange(genreId)}
           />

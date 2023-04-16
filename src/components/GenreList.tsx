@@ -1,5 +1,13 @@
-import { ListItem, ListIcon, List, Button } from "@chakra-ui/react";
+import {
+  ListItem,
+  ListIcon,
+  List,
+  Button,
+  HStack,
+  Image,
+} from "@chakra-ui/react";
 import useGenres from "../hooks/useGenres";
+import getCroppedImageUrl from "../image-url";
 
 interface Props {
   onGenreChange: (genre: number) => void;
@@ -13,9 +21,17 @@ const GenreMenu = ({ onGenreChange }: Props) => {
       </Button>
       <List spacing={3}>
         {data.map((d) => (
-          <ListItem key={d.id}>
-            <ListIcon color="green.500" />
-            <Button onClick={() => onGenreChange(d.id)}>{d.name}</Button>
+          <ListItem key={d.id} paddingY="5px">
+            <HStack>
+              <Image
+                boxSize="32px"
+                borderRadius={8}
+                src={getCroppedImageUrl(d.image_background)}
+              />
+              <Button fontSize="lg" onClick={() => onGenreChange(d.id)}>
+                {d.name}
+              </Button>
+            </HStack>
           </ListItem>
         ))}
       </List>
