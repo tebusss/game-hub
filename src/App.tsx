@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import { Grid, GridItem, Show, Text } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
-import GenreMenu from "./side-bar/components/GenreList";
-import FilterBar from "./main/components/FilterBar";
-import GameGrid from "./GameGrid";
+import GenreMenu from "./components/GenreList";
+import FilterBar from "./components/FilterBar";
+import GameGrid from "./components/GameGrid";
 
 export interface Genre {
   id: number;
