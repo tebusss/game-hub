@@ -7,7 +7,8 @@ import {
   Grid,
   GridItem,
   HStack,
-  VStack,
+  Show,
+  Text,
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
@@ -202,56 +203,55 @@ function App() {
     if (temp) setFilteredGames(temp);
   };
   return (
-    <ChakraProvider>
-      <Grid
-        templateAreas={`"header header"
-      "nav main"
-      "nav footer"`}
-        gridTemplateRows={"50px 1fr 50px"}
-        templateColumns={"150px 1fr"}
-        gap={2}
-      >
-        <GridItem pl={2} area={"header"}>
-          <HStack>
-            <SearchBar
-              onSearchStringChange={(str: string) =>
-                handleSearchStringChange(str)
-              }
-            />
-            <ThemeToggle />
-          </HStack>
-        </GridItem>
-        <GridItem pl={2} area={"nav"}>
+    <Grid
+      templateAreas={{
+        base: `"nav" "main"`,
+        lg: `"nav nav" "aside main"`, // 1024px
+      }}
+      gap={2}
+    >
+      <GridItem pl={2} area={"nav"} background={"cyan"}>
+        <HStack>
+          <SearchBar
+            onSearchStringChange={(str: string) =>
+              handleSearchStringChange(str)
+            }
+          />
+          <ThemeToggle />
+        </HStack>
+      </GridItem>
+      <Show above="lg">
+        <GridItem pl={2} area={"aside"} background={"blue"}>
           <GenreMenu
             genres={genres}
             onGenreChange={(genreId: number) => handleGenreChange(genreId)}
           />
         </GridItem>
-        <GridItem pl={2} area={"main"}>
-          <FilterBar
-            orderByOptions={orderByOptions}
-            platformOptions={platformOptions}
-            onOrderChange={(order) => {
-              orderGames(order);
-            }}
-            onPlatformChange={(platform) => {
-              handlePlatformChange(platform);
-            }}
-          />
-          <Wrap>
-            {filteredGames.map((game) => (
-              <WrapItem key={game.id}>
-                <GameCard game={game} />
-              </WrapItem>
-            ))}
-          </Wrap>
-        </GridItem>
-        <GridItem pl={2} area={"footer"}>
-          Footer
-        </GridItem>
-      </Grid>
-    </ChakraProvider>
+      </Show>
+      <GridItem pl={2} area={"main"} background={"red"}>
+        <FilterBar
+          orderByOptions={orderByOptions}
+          platformOptions={platformOptions}
+          onOrderChange={(order) => {
+            orderGames(order);
+          }}
+          onPlatformChange={(platform) => {
+            handlePlatformChange(platform);
+          }}
+        />
+
+        <Text fontSize={40} m={2}>
+          {selectedGenre?.name} Games
+        </Text>
+        <Wrap>
+          {filteredGames.map((game) => (
+            <WrapItem key={game.id}>
+              <GameCard game={game} />
+            </WrapItem>
+          ))}
+        </Wrap>
+      </GridItem>
+    </Grid>
   );
 }
-
 export default App;
