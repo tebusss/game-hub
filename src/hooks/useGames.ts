@@ -16,7 +16,7 @@ export interface Game {
     id: number;
     name: string;
     description: string;
-    background_image?: string;
+    background_image: string;
     releaseDate?: Date;
     platform?: string;
     genre?: Genre;
