@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import SearchBar from "./main-menu/components/SearchBar";
 import ThemeToggle from "./main-menu/components/ThemeToggle";
-import GenreMenu from "./side-bar/components/GenreMenu";
+import GenreMenu from "./side-bar/components/GenreList";
 import GameCard from "./main/components/GameCard";
 import FilterBar from "./main/components/FilterBar";
 
@@ -122,6 +122,7 @@ function App() {
       genre: genres.find((x) => x.id === 3) as Genre,
     },
   ]);
+  const [searchString, setSearchString] = useState("");
   const [filteredGames, setFilteredGames] = useState<Game[]>([]);
   const [selectedPlatform, setSelectedPlatform] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<Genre>();
@@ -143,23 +144,40 @@ function App() {
   }, []);
   const handlePlatformChange = (selectedPlat: string) => {
     console.log(selectedPlat);
-    filter(selectedGenre as Genre, selectedPlat);
+    filter(selectedGenre as Genre, selectedPlat, searchString);
     setSelectedPlatform(selectedPlat);
   };
   const handleGenreChange = (selectedGenre: number) => {
     const genre = genres.find((g) => g.id === selectedGenre) as Genre;
     console.log(genre);
     if (!genre) console.log("Genre filter cleared!");
-    filter(genre, selectedPlatform);
+    filter(genre, selectedPlatform, searchString);
     setSelectedGenre(genre);
   };
-  const filter = (selectedGenre: Genre, selectedPlatform: string) => {
+  const handleSearchStringChange = (searchString: string) => {
+    filter(
+      selectedGenre as Genre,
+      selectedPlatform,
+      searchString.toLowerCase()
+    );
+    console.log(searchString);
+    setSearchString(searchString.toLowerCase());
+  };
+  const filter = (
+    selectedGenre: Genre,
+    selectedPlatform: string,
+    searchString: string
+  ) => {
     var filtered = games;
     if (selectedPlatform !== "All")
       filtered = games.filter((g) => g.platform === selectedPlatform);
     if (selectedGenre) {
       filtered = filtered.filter((g) => g.genre === selectedGenre);
     }
+    if (searchString)
+      filtered = filtered.filter((g) =>
+        g.name.toLowerCase().includes(searchString)
+      );
     setFilteredGames(filtered);
   };
   const orderGames = (selectedOrder: string) => {
@@ -195,7 +213,11 @@ function App() {
       >
         <GridItem pl={2} area={"header"}>
           <HStack>
-            <SearchBar />
+            <SearchBar
+              onSearchStringChange={(str: string) =>
+                handleSearchStringChange(str)
+              }
+            />
             <ThemeToggle />
           </HStack>
         </GridItem>
