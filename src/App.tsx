@@ -5,12 +5,8 @@ import NavBar from "./components/NavBar";
 import GenreMenu from "./components/GenreList";
 import FilterBar from "./components/FilterBar";
 import GameGrid from "./components/GameGrid";
+import { Genre } from "./hooks/useGenres";
 
-export interface Genre {
-  id: number;
-  name: string;
-  img?: ImageBitmap;
-}
 function App() {
   const [searchString, setSearchString] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<Genre>();
@@ -46,7 +42,6 @@ function App() {
       <Show above="lg">
         <GridItem pl={2} area={"aside"}>
           <GenreMenu
-            genres={[]}
             onGenreChange={(genreId: number) => handleGenreChange(genreId)}
           />
         </GridItem>

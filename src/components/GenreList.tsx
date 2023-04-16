@@ -1,24 +1,21 @@
 import { ListItem, ListIcon, List, Button } from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
-import { Genre } from "../App";
+import useGenres from "../hooks/useGenres";
 
 interface Props {
-  genres: Genre[];
   onGenreChange: (genre: number) => void;
 }
-const GenreMenu = ({ genres, onGenreChange }: Props) => {
+const GenreMenu = ({ onGenreChange }: Props) => {
+  const { data } = useGenres();
   return (
     <>
       <Button margin={5} onClick={() => onGenreChange(-1)}>
         Clear
       </Button>
       <List spacing={3}>
-        {genres.map((genre) => (
-          <ListItem key={genre.id}>
-            <ListIcon as={AddIcon} color="green.500" />
-            <Button onClick={() => onGenreChange(genre.id)}>
-              {genre.name}
-            </Button>
+        {data.map((d) => (
+          <ListItem key={d.id}>
+            <ListIcon color="green.500" />
+            <Button onClick={() => onGenreChange(d.id)}>{d.name}</Button>
           </ListItem>
         ))}
       </List>
