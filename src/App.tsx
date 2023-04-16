@@ -12,11 +12,6 @@ export interface Genre {
   img?: ImageBitmap;
 }
 function App() {
-  const [genres, setGenres] = useState<Genre[]>([
-    { id: 1, name: "Action" },
-    { id: 2, name: "Indie" },
-    { id: 3, name: "Adventure" },
-  ]);
   const [searchString, setSearchString] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<Genre>();
   const [orderByOptions, setOrderByOptions] = useState([
@@ -30,37 +25,10 @@ function App() {
   const handlePlatformChange = (selectedPlat: string) => {
     console.log(selectedPlat);
   };
-  const handleGenreChange = (selectedGenre: number) => {
-    const genre = genres.find((g) => g.id === selectedGenre) as Genre;
-    console.log(genre);
-    if (!genre) console.log("Genre filter cleared!");
-    setSelectedGenre(genre);
-  };
+  const handleGenreChange = (selectedGenre: number) => {};
   const handleSearchStringChange = (searchString: string) => {
     console.log(searchString);
     setSearchString(searchString.toLowerCase());
-  };
-
-  const orderGames = (selectedOrder: string) => {
-    console.log(selectedOrder);
-    let temp = null;
-    // switch (selectedOrder) {
-    //   case "Popularity": {
-    //   }
-    //   case "Release date": {
-    //     temp = [...filteredGames].sort((a, b) => {
-    //       if (a.releaseDate && b.releaseDate)
-    //         return a.releaseDate > b.releaseDate ? -1 : 1;
-    //       else return 0;
-    //     });
-    //     break;
-    //   }
-    //   case "Name":
-    //     temp = [...filteredGames].sort((a, b) => a.name.localeCompare(b.name));
-    //     console.log("by name");
-    //     break;
-    // }
-    // if (temp) setFilteredGames(temp);
   };
   return (
     <Grid
@@ -78,7 +46,7 @@ function App() {
       <Show above="lg">
         <GridItem pl={2} area={"aside"}>
           <GenreMenu
-            genres={genres}
+            genres={[]}
             onGenreChange={(genreId: number) => handleGenreChange(genreId)}
           />
         </GridItem>
@@ -87,9 +55,7 @@ function App() {
         <FilterBar
           orderByOptions={orderByOptions}
           platformOptions={[]}
-          onOrderChange={(order) => {
-            orderGames(order);
-          }}
+          onOrderChange={(order) => {}}
           onPlatformChange={(platform) => {
             handlePlatformChange(platform);
           }}
