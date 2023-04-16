@@ -20,7 +20,8 @@ export interface Game {
     releaseDate?: Date;
     platform?: string;
     genre?: Genre;
-    parent_platforms:{platform: Platform}[]
+    parent_platforms:{platform: Platform}[];
+    metacritic:number
   }
 const useGames = () =>{ 
     const [games, setGames] = useState<Game[]>([]);
