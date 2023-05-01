@@ -1,10 +1,10 @@
 import {
   ListItem,
-  ListIcon,
   List,
   Button,
   HStack,
   Image,
+  Spinner,
 } from "@chakra-ui/react";
 import useGenres from "../hooks/useGenres";
 import getCroppedImageUrl from "../image-url";
@@ -13,7 +13,9 @@ interface Props {
   onGenreChange: (genre: number) => void;
 }
 const GenreMenu = ({ onGenreChange }: Props) => {
-  const { data } = useGenres();
+  const { data, isLoading, error } = useGenres();
+  //if (error) return null;
+  if (isLoading) return <Spinner />;
   return (
     <>
       <Button margin={5} onClick={() => onGenreChange(-1)}>
@@ -24,7 +26,7 @@ const GenreMenu = ({ onGenreChange }: Props) => {
           <ListItem key={d.id} paddingY="5px">
             <HStack>
               <Image
-                boxSize="32px"
+                boxSize="40px"
                 borderRadius={8}
                 src={getCroppedImageUrl(d.image_background)}
               />
