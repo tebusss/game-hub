@@ -3,13 +3,17 @@ import "./App.css";
 import { Grid, GridItem, Show, Text } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import GenreList from "./components/GenreList";
-import FilterBar from "./components/FilterBar";
 import GameGrid from "./components/GameGrid";
 import { Genre } from "./hooks/useGenres";
+import PlatformSelector from "./components/PlatformSelector";
+import { Platform } from "./hooks/useGames";
 
 function App() {
   const [searchString, setSearchString] = useState("");
   const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
+  const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(
+    null
+  );
   const [orderByOptions, setOrderByOptions] = useState([
     "Popularity",
     "Release date",
@@ -53,18 +57,14 @@ function App() {
         </GridItem>
       </Show>
       <GridItem area={"main"}>
-        <FilterBar
-          orderByOptions={orderByOptions}
-          platformOptions={[]}
-          onOrderChange={(order) => {}}
-          onPlatformChange={(platform) => {
-            handlePlatformChange(platform);
-          }}
+        <PlatformSelector
+          selectedPlatform={selectedPlatform}
+          onSelectPlatform={(platform) => setSelectedPlatform(platform)}
         />
         <Text fontSize={40} m={2}>
           {selectedGenre?.name} Games
         </Text>
-        <GameGrid genre={selectedGenre} />
+        <GameGrid genre={selectedGenre} selectedPlatform={selectedPlatform} />
       </GridItem>
     </Grid>
   );
