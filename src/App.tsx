@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import { Grid, GridItem, Show, Text } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
-import GenreMenu from "./components/GenreList";
+import GenreList from "./components/GenreList";
 import FilterBar from "./components/FilterBar";
 import GameGrid from "./components/GameGrid";
 import { Genre } from "./hooks/useGenres";
 
 function App() {
   const [searchString, setSearchString] = useState("");
-  const [selectedGenre, setSelectedGenre] = useState<Genre>();
+  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
   const [orderByOptions, setOrderByOptions] = useState([
     "Popularity",
     "Release date",
@@ -21,7 +21,6 @@ function App() {
   const handlePlatformChange = (selectedPlat: string) => {
     console.log(selectedPlat);
   };
-  const handleGenreChange = (selectedGenre: number) => {};
   const handleSearchStringChange = (searchString: string) => {
     console.log(searchString);
     setSearchString(searchString.toLowerCase());
@@ -45,8 +44,10 @@ function App() {
       </GridItem>
       <Show above="lg">
         <GridItem pl={2} area={"aside"} paddingX={1}>
-          <GenreMenu
-            onGenreChange={(genreId: number) => handleGenreChange(genreId)}
+          <GenreList
+            onGenreChange={(genre: Genre) => {
+              return setSelectedGenre(genre);
+            }}
           />
         </GridItem>
       </Show>
@@ -62,7 +63,7 @@ function App() {
         <Text fontSize={40} m={2}>
           {selectedGenre?.name} Games
         </Text>
-        <GameGrid />
+        <GameGrid genre={selectedGenre} />
       </GridItem>
     </Grid>
   );
