@@ -1,35 +1,26 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import { Grid, GridItem, Show, Text } from "@chakra-ui/react";
-import NavBar from "./components/NavBar";
+import { Grid, GridItem, HStack, Show, Text } from "@chakra-ui/react";
 import GenreList from "./components/GenreList";
 import GameGrid from "./components/GameGrid";
 import { Genre } from "./hooks/useGenres";
 import PlatformSelector from "./components/PlatformSelector";
 import { Platform } from "./hooks/useGames";
+import SortSelector from "./components/SortSelector";
 
 export interface GameQuery {
   genre: Genre | null;
   platform: Platform | null;
+  sortOrder: string;
 }
 
 function App() {
-  const [searchString, setSearchString] = useState("");
   const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
-  const [orderByOptions, setOrderByOptions] = useState([
-    "Popularity",
-    "Release date",
-    "Name",
-  ]);
   useEffect(() => {
     handlePlatformChange("All");
   }, []);
   const handlePlatformChange = (selectedPlat: string) => {
     console.log(selectedPlat);
-  };
-  const handleSearchStringChange = (searchString: string) => {
-    console.log(searchString);
-    setSearchString(searchString.toLowerCase());
   };
   return (
     <Grid
@@ -43,11 +34,7 @@ function App() {
       }}
       gap={2}
     >
-      <GridItem area={"nav"}>
-        <NavBar
-          onSearchStringChange={(str: string) => handleSearchStringChange(str)}
-        />
-      </GridItem>
+      <GridItem area={"nav"}></GridItem>
       <Show above="lg">
         <GridItem pl={2} area={"aside"} paddingX={1}>
           <GenreList
@@ -59,12 +46,20 @@ function App() {
         </GridItem>
       </Show>
       <GridItem area={"main"}>
-        <PlatformSelector
-          selectedPlatform={gameQuery.platform}
-          onSelectPlatform={(platform) =>
-            setGameQuery({ ...gameQuery, platform })
-          }
-        />
+        <HStack spacing={5} paddingLeft={2} marginBottom={5}>
+          <PlatformSelector
+            selectedPlatform={gameQuery.platform}
+            onSelectPlatform={(platform) =>
+              setGameQuery({ ...gameQuery, platform })
+            }
+          />
+          <SortSelector
+            selectedSortOrder={gameQuery.sortOrder}
+            onSelectSortOrder={(sortOrder) =>
+              setGameQuery({ ...gameQuery, sortOrder })
+            }
+          />
+        </HStack>
         <Text fontSize={40} m={2}>
           {gameQuery.genre?.name} Games
         </Text>
