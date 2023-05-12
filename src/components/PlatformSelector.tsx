@@ -10,7 +10,9 @@ interface Props {
 
 const PlatformFilter = ({ onSelectPlatform, selectedPlatform }: Props) => {
   const { data, error } = usePlatforms();
-  //if (error) return null;
+  {
+    if (error == null) return null;
+  }
   return (
     <Menu>
       <MenuButton as={Button} rightIcon={<BsChevronDown />}>
