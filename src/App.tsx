@@ -15,6 +15,8 @@ import { Genre } from "./hooks/useGenres";
 import PlatformSelector from "./components/PlatformSelector";
 import { Platform } from "./hooks/useGames";
 import SortSelector from "./components/SortSelector";
+import SearchInput from "./components/SearchInput";
+import NavBar from "./components/NavBar";
 
 export interface GameQuery {
   genre: Genre | null;
@@ -42,7 +44,9 @@ function App() {
       }}
       gap={2}
     >
-      <GridItem area={"nav"}></GridItem>
+      <GridItem area={"nav"}>
+        <NavBar />
+      </GridItem>
       <Show above="lg">
         <GridItem pl={2} area={"aside"} paddingX={1}>
           <GenreList
